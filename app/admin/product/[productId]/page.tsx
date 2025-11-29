@@ -786,7 +786,7 @@ export default function ProductDetailsPage() {
                                 <ExternalLink className="h-3 w-3" />
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="w-full h-full sm:h-auto sm:max-w-3xl max-h-[100vh] sm:max-h-[90vh] flex flex-col p-0 sm:p-6">
+                            <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] sm:max-w-3xl flex flex-col p-0 sm:p-6 rounded-lg">
                               <DialogHeader className="p-4 sm:p-0 shrink-0">
                                 <DialogTitle className="text-right text-xl mb-2">{order.studentName}</DialogTitle>
                                 <DialogDescription className="text-right flex flex-col gap-1">

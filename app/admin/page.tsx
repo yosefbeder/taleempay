@@ -60,6 +60,13 @@ export default function AdminPage() {
   const router = useRouter()
   useEffect(() => {
     checkAuth()
+    
+    // Poll for updates every 10 seconds
+    const interval = setInterval(() => {
+      loadProducts()
+    }, 10000)
+
+    return () => clearInterval(interval)
   }, [])
 
   async function checkAuth() {
@@ -112,11 +119,11 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8" dir="rtl">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8" dir="rtl">
       <div className="max-w-5xl mx-auto space-y-8">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <div className="relative w-16 h-16">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0">
               <Image 
                 src="/logo.png" 
                 alt="TaleemPay Logo" 
@@ -125,11 +132,11 @@ export default function AdminPage() {
               />
             </div>
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900">TaleemPay</h1>
-              <p className="text-muted-foreground">لوحة تحكم المسؤول - إدارة المنتجات وتتبع التوزيع.</p>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">TaleemPay</h1>
+              <p className="text-sm md:text-base text-muted-foreground">لوحة تحكم المسؤول - إدارة المنتجات وتتبع التوزيع.</p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full md:w-auto justify-end">
             <Link href="/admin/profile">
               <Button variant="outline" size="icon" title="الملف الشخصي">
                 <User className="h-4 w-4" />
@@ -137,7 +144,7 @@ export default function AdminPage() {
             </Link>
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
-                <Button>
+                <Button className="flex-1 md:flex-none">
                   <Plus className="ml-2 h-4 w-4" /> إنشاء منتج
                 </Button>
               </DialogTrigger>

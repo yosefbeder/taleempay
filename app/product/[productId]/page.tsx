@@ -82,6 +82,13 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
   useEffect(() => {
     if (selectedStudent && product) {
       checkExistingOrder()
+
+      // Poll for updates every 5 seconds
+      const interval = setInterval(() => {
+        checkExistingOrder()
+      }, 5000)
+
+      return () => clearInterval(interval)
     }
   }, [selectedStudent, product])
 

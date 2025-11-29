@@ -157,6 +157,13 @@ export default function ProductDetailsPage() {
   const [selectedStudents, setSelectedStudents] = useState<string[]>([])
   const [bulkActionLoading, setBulkActionLoading] = useState(false)
   const [unpaidSearchTerm, setUnpaidSearchTerm] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const ITEMS_PER_PAGE = 10
+
+  // Reset page when search changes
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm])
 
   // ... (existing code)
 
@@ -479,6 +486,14 @@ export default function ProductDetailsPage() {
     order.qrCodeString.includes(searchTerm)
   )
 
+
+
+  const totalPages = Math.ceil(filteredPendingOrders.length / ITEMS_PER_PAGE)
+  const paginatedPendingOrders = filteredPendingOrders.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  )
+
   const totalPendingAmount = stats.pendingConfirmationOrders.length * product.price
 
   return (
@@ -575,14 +590,14 @@ export default function ProductDetailsPage() {
               <DialogTrigger asChild>
                 <Button variant="outline" size="sm" className="w-full">عرض القائمة</Button>
               </DialogTrigger>
-              <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-                <DialogHeader>
+              <DialogContent className="w-full h-full sm:h-auto sm:max-w-4xl max-h-[100vh] sm:max-h-[80vh] flex flex-col p-0 sm:p-6">
+                <DialogHeader className="p-4 sm:p-0 shrink-0">
                   <DialogTitle>الطلاب الذين لم يشتروا المنتج</DialogTitle>
                   <DialogDescription>
                     يمكنك تحديد الطلاب وتغيير حالتهم يدوياً.
                   </DialogDescription>
                 </DialogHeader>
-                <div className="mt-4 space-y-4">
+                <div className="p-4 sm:p-0 shrink-0">
                   <div className="relative">
                     <Search className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -593,11 +608,14 @@ export default function ProductDetailsPage() {
                     />
                   </div>
                   {unpaidSearchTerm.length > 0 && unpaidSearchTerm.length < 3 && (
-                    <p className="text-sm text-muted-foreground text-right">
+                    <p className="text-sm text-muted-foreground text-right mt-1">
                       يرجى كتابة 3 أحرف على الأقل للبحث
                     </p>
                   )}
-                  <Table>
+                </div>
+                <div className="flex-1 overflow-y-auto p-4 sm:p-0 pt-0 sm:pt-4">
+                  <div className="overflow-x-auto max-w-[calc(100vw-2rem)] sm:max-w-none">
+                    <Table>
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-[50px]">
@@ -637,7 +655,8 @@ export default function ProductDetailsPage() {
                         </TableRow>
                       ))}
                     </TableBody>
-                  </Table>
+                    </Table>
+                  </div>
                 </div>
               </DialogContent>
             </Dialog>
@@ -703,8 +722,8 @@ export default function ProductDetailsPage() {
                       <Check className="ml-2 h-4 w-4" /> تأكيد الكل
                     </Button>
                   </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
+                  <DialogContent className="w-full h-full sm:h-auto sm:max-w-lg max-h-[100vh] sm:max-h-[80vh] flex flex-col p-0 sm:p-6">
+                    <DialogHeader className="p-4 sm:p-0 shrink-0">
                       <DialogTitle className="text-right">تأكيد جميع المدفوعات؟</DialogTitle>
                       <DialogDescription className="text-right">
                         سيتم تحديد جميع الطلبات المعلقة ({stats.pendingConfirmationOrders.length}) كمدفوعة.
@@ -712,7 +731,7 @@ export default function ProductDetailsPage() {
                         إجمالي المبلغ المتوقع: <strong>{totalPendingAmount} جنيه</strong>
                       </DialogDescription>
                     </DialogHeader>
-                    <DialogFooter className="gap-2 sm:gap-0">
+                    <DialogFooter className="gap-2 sm:gap-0 p-4 sm:p-0 shrink-0">
                       <Button onClick={handleBulkConfirm}>تأكيد الكل</Button>
                     </DialogFooter>
                   </DialogContent>
@@ -721,7 +740,7 @@ export default function ProductDetailsPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="relative w-full overflow-auto">
+            <div className="relative w-full overflow-x-auto max-w-[calc(100vw-4rem)] sm:max-w-none">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -757,7 +776,7 @@ export default function ProductDetailsPage() {
                       {product.type === 'COURSE' && (
                         <TableCell dir="ltr" className="text-right">{order.activationPhoneNumber || '-'}</TableCell>
                       )}
-                      <TableCell className="text-muted-foreground">{new Date(order.createdAt).toLocaleDateString('ar-EG')}</TableCell>
+                      <TableCell className="text-muted-foreground" suppressHydrationWarning>{new Date(order.createdAt).toLocaleDateString('ar-EG')}</TableCell>
                       <TableCell>
                         {order.screenshotUrl ? (
                           <Dialog>
@@ -767,8 +786,8 @@ export default function ProductDetailsPage() {
                                 <ExternalLink className="h-3 w-3" />
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-                              <DialogHeader>
+                            <DialogContent className="w-full h-full sm:h-auto sm:max-w-3xl max-h-[100vh] sm:max-h-[90vh] flex flex-col p-0 sm:p-6">
+                              <DialogHeader className="p-4 sm:p-0 shrink-0">
                                 <DialogTitle className="text-right text-xl mb-2">{order.studentName}</DialogTitle>
                                 <DialogDescription className="text-right flex flex-col gap-1">
                                   <span>تاريخ الطلب: {new Date(order.createdAt).toLocaleDateString('ar-EG')}</span>
@@ -778,15 +797,17 @@ export default function ProductDetailsPage() {
                                 </DialogDescription>
                               </DialogHeader>
                               
-                              <div className="w-full rounded-lg border overflow-hidden my-4">
-                                <img
-                                  src={order.screenshotUrl}
-                                  alt={`إيصال دفع ${order.studentName}`}
-                                  className="w-full h-auto"
-                                />
+                              <div className="flex-1 overflow-y-auto p-4 sm:p-0">
+                                <div className="w-full rounded-lg border overflow-hidden my-4">
+                                  <img
+                                    src={order.screenshotUrl}
+                                    alt={`إيصال دفع ${order.studentName}`}
+                                    className="w-full h-auto"
+                                  />
+                                </div>
                               </div>
 
-                              <DialogFooter className="flex-row gap-2 justify-end sm:justify-start">
+                              <DialogFooter className="flex-row gap-2 justify-end sm:justify-start p-4 sm:p-0 shrink-0">
                                 <Button 
                                   variant="destructive"
                                   onClick={() => handleDeclinePayment(order.id)}
@@ -854,7 +875,7 @@ export default function ProductDetailsPage() {
                     <Download className="h-4 w-4" />
                   </Button>
                 </div>
-                <div className="relative mt-2">
+                <div className="relative mt-2 overflow-x-auto max-w-[calc(100vw-4rem)] sm:max-w-none">
                   <Search className="absolute right-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
                     placeholder="بحث بالاسم..."
@@ -866,7 +887,7 @@ export default function ProductDetailsPage() {
               </CardHeader>
               <CardContent className="flex-1 overflow-auto max-h-[500px]">
                 {filteredPendingOrders.length > 0 ? (
-                  <div className="relative w-full">
+                  <div className="relative w-full overflow-x-auto max-w-[calc(100vw-4rem)] sm:max-w-none">
                     <Table>
                       <TableHeader>
                         <TableRow>
@@ -889,7 +910,7 @@ export default function ProductDetailsPage() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {filteredPendingOrders.map((order: any) => (
+                        {paginatedPendingOrders.map((order: any) => (
                           <TableRow key={order.id}>
                             <TableCell>
                               <input 
@@ -926,6 +947,31 @@ export default function ProductDetailsPage() {
                 ) : (
                   <div className="text-center py-6 text-muted-foreground">
                     لا يوجد طلاب في الانتظار.
+                  </div>
+                )}
+
+                {/* Pagination Controls */}
+                {filteredPendingOrders.length > ITEMS_PER_PAGE && (
+                  <div className="flex items-center justify-center gap-2 mt-4 py-2 border-t">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                    >
+                      السابق
+                    </Button>
+                    <span className="text-sm text-muted-foreground">
+                      صفحة {currentPage} من {totalPages}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                    >
+                      التالي
+                    </Button>
                   </div>
                 )}
               </CardContent>
@@ -1019,7 +1065,8 @@ export default function ProductDetailsPage() {
             </CardHeader>
             <CardContent>
               {stats?.paidOrders.filter(o => o.status === 'DELIVERED').length > 0 ? (
-                <Table>
+                <div className="relative w-full overflow-x-auto max-w-[calc(100vw-4rem)] sm:max-w-none">
+                  <Table>
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-[50px]">
@@ -1056,7 +1103,7 @@ export default function ProductDetailsPage() {
                           <TableCell dir="ltr" className="text-right">{order.activationPhoneNumber || '-'}</TableCell>
                         )}
                         <TableCell>
-                          {new Date(order.createdAt).toLocaleDateString('ar-EG')}
+                          <span suppressHydrationWarning>{new Date(order.createdAt).toLocaleDateString('ar-EG')}</span>
                         </TableCell>
                         <TableCell className="text-left">
                           <StatusSelect 
@@ -1069,7 +1116,8 @@ export default function ProductDetailsPage() {
                       </TableRow>
                     ))}
                   </TableBody>
-                </Table>
+                  </Table>
+                </div>
               ) : (
                 <div className="text-center py-12 text-muted-foreground">
                   {product.type === 'COURSE' ? 'لم يتم تفعيل الكورس لأي طالب بعد.' : 'لم يتم تسليم الكتاب لأي طالب بعد.'}

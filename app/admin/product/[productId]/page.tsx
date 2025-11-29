@@ -116,15 +116,38 @@ export default function ProductDetailsPage() {
   }, [productId])
 
   const playSuccessSound = () => {
-    const audio = new Audio('data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
-    audio.play().catch(e => console.error('Error playing sound:', e))
+    try {
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContext) return;
+      
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, ctx.currentTime); // High beep
+      osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.1); // Drop pitch
+
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.1);
+    } catch (e) {
+      console.error('Error playing sound:', e);
+    }
   }
 
   const handleScan = async (text: string) => {
+    console.log('Scanned:', text);
     if (scanning) return
     setScanning(true)
     try {
       const result = await markOrderDelivered(text)
+      console.log('Scan result:', result);
       if (result.success) {
         toast.success(`تم تسليم الكتاب إلى ${result.studentName}`)
         playSuccessSound()
@@ -133,6 +156,7 @@ export default function ProductDetailsPage() {
         toast.error(result.error || 'Invalid QR Code')
       }
     } catch (error) {
+      console.error('Scan error:', error);
       toast.error('Error processing QR code')
     } finally {
       setScanning(false)
@@ -394,7 +418,17 @@ export default function ProductDetailsPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">لم يشتروا بعد</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.unpaidStudents}</div>
+            <p className="text-xs text-muted-foreground">طلاب لم يدفعوا</p>
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">في انتظار تأكيد الدفع</CardTitle>
@@ -587,83 +621,6 @@ export default function ProductDetailsPage() {
 
         <TabsContent value="pending">
           <div className="grid gap-6 md:grid-cols-2">
-            {/* QR Scanner Section - Only for BOOK */}
-            {product.type !== 'COURSE' && (
-              <div className="space-y-6">
-                <Card>
-                  <CardHeader>
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <CardTitle>ماسح QR</CardTitle>
-                        <CardDescription>امسح كود الطالب لتسليمه المنتج.</CardDescription>
-                      </div>
-                      <Button 
-                        variant={showScanner ? "destructive" : "default"} 
-                        onClick={() => setShowScanner(!showScanner)}
-                      >
-                        {showScanner ? "إيقاف الكاميرا" : "تشغيل الكاميرا"}
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {showScanner ? (
-                      <div className="aspect-square bg-black rounded-lg overflow-hidden relative">
-                        <Scanner 
-                          onScan={(result) => {
-                            if (result && result.length > 0) {
-                              handleScan(result[0].rawValue)
-                            }
-                          }}
-                        />
-                        {scanning && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white">
-                            جاري المعالجة...
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="aspect-video bg-muted rounded-lg flex items-center justify-center text-muted-foreground">
-                        <p>الكاميرا متوقفة</p>
-                      </div>
-                    )}
-
-                    <div className="relative">
-                      <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t" />
-                      </div>
-                      <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">
-                          أو أدخل يدوياً / رفع صورة
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-2">
-                      <Input 
-                        placeholder="أدخل كود QR UUID" 
-                        value={manualCode}
-                        onChange={(e) => setManualCode(e.target.value)}
-                        className="text-right"
-                      />
-                      <Button onClick={() => handleScan(manualCode)} disabled={scanning || !manualCode}>
-                        تأكيد
-                      </Button>
-                    </div>
-
-                    <div className="flex items-center justify-center w-full">
-                      <label htmlFor="qr-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <Upload className="w-8 h-8 mb-4 text-gray-500" />
-                          <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">اضغط لرفع</span> صورة QR</p>
-                        </div>
-                        <input id="qr-upload" type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
-                      </label>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
-
             {/* Pending Orders List */}
             <Card className={product.type === 'COURSE' ? "col-span-2 h-full flex flex-col" : "h-full flex flex-col"}>
               <CardHeader>
@@ -742,6 +699,83 @@ export default function ProductDetailsPage() {
                 )}
               </CardContent>
             </Card>
+
+            {/* QR Scanner Section - Only for BOOK */}
+            {product.type !== 'COURSE' && (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <CardTitle>ماسح QR</CardTitle>
+                        <CardDescription>امسح كود الطالب لتسليمه المنتج.</CardDescription>
+                      </div>
+                      <Button 
+                        variant={showScanner ? "destructive" : "default"} 
+                        onClick={() => setShowScanner(!showScanner)}
+                      >
+                        {showScanner ? "إيقاف الكاميرا" : "تشغيل الكاميرا"}
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {showScanner ? (
+                      <div className="aspect-square bg-black rounded-lg overflow-hidden relative">
+                        <Scanner 
+                          onScan={(result) => {
+                            if (result && result.length > 0) {
+                              handleScan(result[0].rawValue)
+                            }
+                          }}
+                        />
+                        {scanning && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white">
+                            جاري المعالجة...
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="aspect-video bg-muted rounded-lg flex items-center justify-center text-muted-foreground">
+                        <p>الكاميرا متوقفة</p>
+                      </div>
+                    )}
+
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-background px-2 text-muted-foreground">
+                          أو أدخل يدوياً / رفع صورة
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Input 
+                        placeholder="أدخل كود QR UUID" 
+                        value={manualCode}
+                        onChange={(e) => setManualCode(e.target.value)}
+                        className="text-right"
+                      />
+                      <Button onClick={() => handleScan(manualCode)} disabled={scanning || !manualCode}>
+                        تأكيد
+                      </Button>
+                    </div>
+
+                    <div className="flex items-center justify-center w-full">
+                      <label htmlFor="qr-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <Upload className="w-8 h-8 mb-4 text-gray-500" />
+                          <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">اضغط لرفع</span> صورة QR</p>
+                        </div>
+                        <input id="qr-upload" type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
+                      </label>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
           </div>
         </TabsContent>
 

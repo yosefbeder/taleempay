@@ -11,10 +11,9 @@ async function main() {
   try {
     console.log('Reading Excel file...');
     
-    // Reset Students table - SKIPPED to preserve orders
-    // console.log('Resetting Students table...');
-    // await prisma.student.deleteMany({});
-    // console.log('Students table reset.');
+    console.log('Resetting Students table...');
+    await prisma.student.deleteMany({});
+    console.log('Students table reset.');
 
     const workbook = XLSX.readFile(filePath);
     const targetSheets = ['اولى', 'ثانية', 'ثالثة', 'رابعة ', 'خامسة '];

@@ -51,7 +51,7 @@ model Admin {
 model Order {
   id                    String      @id @default(uuid())
   studentId             String
-  student               Student     @relation(fields: [studentId], references: [id])
+  student               Student     @relation(fields: [studentId], references: [id], onDelete: Cascade)
   productId             String
   product               Product     @relation(fields: [productId], references: [id])
   status                String      @default("PENDING") // PENDING, PENDING_CONFIRMATION, PAID, DELIVERED

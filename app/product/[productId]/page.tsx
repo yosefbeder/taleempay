@@ -358,7 +358,7 @@ export default function ProductPage({ params }: { params: Promise<{ productId: s
                   </div>
                 )}
 
-                {order.paymentScreenshotPath && (
+                {order.paymentScreenshotPath && order.status === 'PENDING_CONFIRMATION' && (
                   <div className="w-full rounded-lg border overflow-hidden">
                     <img
                       src={order.paymentScreenshotPath}

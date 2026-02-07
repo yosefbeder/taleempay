@@ -219,7 +219,21 @@ export async function createOrder(formData: FormData) {
   try {
     // Convert File to Buffer
     const bytes = await screenshot.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+    let buffer = Buffer.from(bytes);
+
+    const isHeic = screenshot.name.toLowerCase().endsWith('.heic') || 
+                   screenshot.name.toLowerCase().endsWith('.heif') ||
+                   screenshot.type === 'image/heic' || 
+                   screenshot.type === 'image/heif';
+
+    if (isHeic) {
+      const heicConvert = require('heic-convert');
+      buffer = await heicConvert({
+        buffer: buffer,
+        format: 'JPEG',
+        quality: 1
+      });
+    }
 
     // Compress and convert to JPEG using sharp
     const optimizedBuffer = await sharp(buffer)
@@ -227,7 +241,6 @@ export async function createOrder(formData: FormData) {
       .jpeg({ quality: 80 })
       .toBuffer()
 
-    // Upload to Backblaze B2
     const fileName = `payments/${Date.now()}-${Math.random().toString(36).substring(7)}.jpg`
     
     await s3Client.send(new PutObjectCommand({

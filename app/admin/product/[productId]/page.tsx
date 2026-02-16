@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import {
   getProductStats,
@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { Scanner } from "@yudiel/react-qr-scanner";
+import { Scanner as ScannerComponent } from "@/components/scanner";
 import Link from "next/link";
 
 import {
@@ -30,7 +30,6 @@ import {
   Search,
   Download,
   FileText,
-  Upload,
   Image as ImageIcon,
   ArrowLeft,
   ArrowRight,
@@ -41,7 +40,6 @@ import {
 } from "lucide-react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import jsQR from "jsqr";
 import {
   Dialog,
   DialogContent,
@@ -193,10 +191,7 @@ export default function ProductDetailsPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const [scanning, setScanning] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [manualCode, setManualCode] = useState("");
-  const [showScanner, setShowScanner] = useState(false);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [selectedStudents, setSelectedStudents] = useState<string[]>([]);
   const [bulkActionLoading, setBulkActionLoading] = useState(false);
@@ -328,55 +323,9 @@ export default function ProductDetailsPage() {
     }
   }, [productId]);
 
-  const playSuccessSound = () => {
-    try {
-      const AudioContext =
-        window.AudioContext || (window as any).webkitAudioContext;
-      if (!AudioContext) return;
-
-      const ctx = new AudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(880, ctx.currentTime); // High beep
-      osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.1); // Drop pitch
-
-      gain.gain.setValueAtTime(0.1, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.1);
-    } catch (e) {
-      console.error("Error playing sound:", e);
-    }
-  };
-
-  const lastScannedRef = useRef<{ code: string; time: number } | null>(null);
-
   const handleScan = async (text: string) => {
-    console.log("Scanned:", text);
-
-    // Debounce: Ignore if same code scanned within 3 seconds
-    const now = Date.now();
-    if (
-      lastScannedRef.current &&
-      lastScannedRef.current.code === text &&
-      now - lastScannedRef.current.time < 3000
-    ) {
-      return;
-    }
-
-    lastScannedRef.current = { code: text, time: now };
-
-    if (scanning) return;
-    setScanning(true);
     try {
-      const result = await markOrderDelivered(text, productId);
-      console.log("Scan result:", result);
+      const result = await markOrderDelivered(text, [productId]);
       if (result.success) {
         toast.success(
           <div className="flex flex-col gap-1">
@@ -389,16 +338,16 @@ export default function ProductDetailsPage() {
           </div>,
           { duration: 5000 },
         );
-        playSuccessSound();
         loadStats(); // Refresh stats
+        return true;
       } else {
         toast.error(result.error || "كود QR غير صالح");
+        return false;
       }
     } catch (error) {
       console.error("Scan error:", error);
       toast.error("خطأ في معالجة كود QR");
-    } finally {
-      setScanning(false);
+      return false;
     }
   };
 
@@ -437,34 +386,6 @@ export default function ProductDetailsPage() {
     } catch (error) {
       toast.error("فشل التأكيد الجماعي");
     }
-  };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const img = new window.Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d");
-        if (ctx) {
-          ctx.drawImage(img, 0, 0);
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const code = jsQR(imageData.data, imageData.width, imageData.height);
-          if (code) {
-            handleScan(code.data);
-          } else {
-            toast.error("لم يتم العثور على كود QR في الصورة");
-          }
-        }
-      };
-      img.src = event.target?.result as string;
-    };
-    reader.readAsDataURL(file);
   };
 
   const exportPDF = async (type: "sales" | "pending" | "unpaid") => {
@@ -1247,94 +1168,11 @@ export default function ProductDetailsPage() {
             {/* QR Scanner Section - Only for BOOK */}
             {product.type !== "COURSE" && (
               <div className="space-y-6">
-                <Card>
-                  <CardHeader>
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <CardTitle>ماسح QR</CardTitle>
-                        <CardDescription>
-                          امسح كود الطالب لتسليمه المنتج.
-                        </CardDescription>
-                      </div>
-                      <Button
-                        variant={showScanner ? "destructive" : "default"}
-                        onClick={() => setShowScanner(!showScanner)}
-                      >
-                        {showScanner ? "إيقاف الكاميرا" : "تشغيل الكاميرا"}
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {showScanner ? (
-                      <div className="aspect-square bg-black rounded-lg overflow-hidden relative">
-                        <Scanner
-                          onScan={(result) => {
-                            if (result && result.length > 0) {
-                              handleScan(result[0].rawValue);
-                            }
-                          }}
-                        />
-                        {scanning && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white">
-                            جاري المعالجة...
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="aspect-video bg-muted rounded-lg flex items-center justify-center text-muted-foreground">
-                        <p>الكاميرا متوقفة</p>
-                      </div>
-                    )}
-
-                    <div className="relative">
-                      <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t" />
-                      </div>
-                      <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">
-                          أو أدخل يدوياً / رفع صورة
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-2">
-                      <Input
-                        placeholder="أدخل كود QR UUID"
-                        value={manualCode}
-                        onChange={(e) => setManualCode(e.target.value)}
-                        className="text-right"
-                      />
-                      <Button
-                        onClick={() => handleScan(manualCode)}
-                        disabled={scanning || !manualCode}
-                      >
-                        تأكيد
-                      </Button>
-                    </div>
-
-                    <div className="flex items-center justify-center w-full">
-                      <label
-                        htmlFor="qr-upload"
-                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
-                      >
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <Upload className="w-8 h-8 mb-4 text-gray-500" />
-                          <p className="mb-2 text-sm text-gray-500">
-                            <span className="font-semibold">اضغط لرفع</span>{" "}
-                            صورة QR
-                          </p>
-                        </div>
-                        <input
-                          id="qr-upload"
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={handleFileUpload}
-                        />
-                      </label>
-                    </div>
-                  </CardContent>
-                </Card>
+                <ScannerComponent
+                  onScan={handleScan}
+                  title="ماسح QR"
+                  description="امسح كود الطالب لتسليمه المنتج."
+                />
               </div>
             )}
           </div>

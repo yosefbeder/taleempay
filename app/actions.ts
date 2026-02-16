@@ -670,11 +670,14 @@ export async function getProductStats(productId: string) {
 
 export async function markOrderDelivered(
   qrCodeString: string,
-  productId: string,
+  productIds: string[],
 ) {
   try {
-    const order = await prisma.order.findUnique({
-      where: { qrCodeString, productId },
+    const order = await prisma.order.findFirst({
+      where: {
+        qrCodeString,
+        productId: { in: productIds },
+      },
       include: { student: true, product: true },
     });
 

@@ -406,7 +406,7 @@ export default function ProductDetailsPage() {
     const date = new Date().toLocaleDateString();
 
     // Chunk data for pagination
-    const ROWS_PER_PAGE = 25;
+    const ROWS_PER_PAGE = 20;
     const chunks = [];
     for (let i = 0; i < data.length; i += ROWS_PER_PAGE) {
       chunks.push(data.slice(i, i + ROWS_PER_PAGE));
